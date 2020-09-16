@@ -10,6 +10,12 @@ const socket = io();
 
 //join room
 socket.emit("joinRoom", { username, room });
+
+//get room and users
+socket.on("roomUsers", ({ room, users }) => {
+  outputRoomName(room);
+  outputUsers(users);
+});
 //msg from server
 socket.on("message", message => {
   console.log(message);
@@ -38,4 +44,19 @@ function outputMessage(message) {
               ${message.text}
             </p>`;
   document.querySelector(".chat-messages").appendChild(div);
+}
+//add room name to DOM
+function outputRoomName(room) {
+  const div = document.getElementById("room-name");
+  div.innerHTML = room;
+}
+
+//add users to DOM
+function outputUsers(users) {
+  const ul = document.getElementById("users");
+  users.map(user => {
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(user.username));
+    return ul.appendChild(li);
+  });
 }

@@ -23,30 +23,42 @@ io.on("connection", socket => {
   //join room
   socket.on("joinRoom", ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
+
     socket.join(user.room);
+
     socket.emit("message", formatMessage(bot, "Welcome to JusTalk"));
+
     socket.broadcast
       .to(user.room)
       .emit(
         "message",
         formatMessage(bot, `${user.username} has joined the chat`)
       );
-    // io.emit("message", formatMessage("User", msg));
+
+    //send users and room info
+    io.to(user.room).emit("roomUsers", {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    });
+
     //listen for chat message
     socket.on("chatMessage", msg => {
       const user = currentUser(socket.id);
       io.to(user.room).emit("message", formatMessage(user.username, msg));
     });
+
     socket.on("disconnect", () => {
       const user = userLeave(socket.id);
-      debugger;
-      user &&
-        io
-          .to(user.room)
-          .emit(
-            "message",
-            formatMessage(bot, `${user.username} has left the chat`)
-          );
+      if (user) {
+        io.to(user.room).emit(
+          "message",
+          formatMessage(bot, `${user.username} has left the chat`)
+        );
+        io.to(user.room).emit("roomUsers", {
+          room: user.room,
+          users: getRoomUsers(user.room)
+        });
+      }
     });
   });
 });
