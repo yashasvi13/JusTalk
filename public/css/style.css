@@ -6,7 +6,7 @@
   --light-color: #d6e0f0;
   --success-color: #5cb85c;
   --error-color: #d9534f;
-  --lighter-color: #f1f3f8;
+  --lighter-color: #f9fbff;
 }
 
 * {
@@ -38,6 +38,16 @@ a {
   border: 0;
   font-size: 17px;
   border-radius: 5px;
+}
+.btn-join {
+  cursor: pointer;
+  padding: 5px 15px;
+  background: var(--success-color);
+  color: var(--lighter-color);
+  border: 0;
+  font-size: 17px;
+  border-radius: 5px;
+  width: 100%;
 }
 .btn-send {
   cursor: pointer;

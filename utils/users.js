@@ -11,5 +11,13 @@ function userJoin(id, username, room) {
 function currentUser(id) {
   return users.find(user => user.id === id);
 }
+//user leave
+function userLeave(id) {
+  return users.filter(user => user.id !== id)[0];
+}
 
-module.exports = { userJoin, currentUser };
+//get Room User
+function getRoomUsers(room) {
+  return users.filter(user => user.room === room);
+}
+module.exports = { userJoin, currentUser, userLeave, getRoomUsers };
