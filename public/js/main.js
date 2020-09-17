@@ -13,6 +13,7 @@ socket.emit("joinRoom", { username, room });
 
 //get room and users
 socket.on("roomUsers", ({ room, users }) => {
+  console.log(users);
   outputRoomName(room);
   outputUsers(users);
 });
